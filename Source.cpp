@@ -17,43 +17,16 @@ public:
 	{
 		root = NULL;
 	}
-	/*void print()
-	{
-		node* temp_root = root;
-		while (temp_root)
-		{
-			cout << "Key - " << temp_root->key << " String - " << temp_root->value<<endl;
-			if (temp_root->left)
-			{
-				temp_root = temp_root->left;
-			}
-			else 
-				break;
-		}
-		if (root->right)
-		{
-			temp_root = root->right;
-			while (temp_root)
-			{
-				cout << "Key - " << temp_root->key << " String - " << temp_root->value << endl;
-				if (temp_root->right)
-				{
-					temp_root = temp_root->right;
-				}
-				else
-					break;
-			}
-		}
-	}*/
 	void print()
 	{
-		treeprint(root);
+		Print(root);
 	}
-	void treeprint(node* root) {
-		if (root != NULL) { //Пока не встретится пустой узел
-			cout << "Key - " << root->key << " String - " << root->value << endl; //Отображаем корень дерева
-			treeprint(root->left); //Рекурсивная функция для левого поддерева
-			treeprint(root->right); //Рекурсивная функция для правого поддерева
+	void Print(node* root) {
+		if (root != NULL) 
+		{
+			cout << "Key - " << root->key << " String - " << root->value << endl;
+			Print(root->left);
+			Print(root->right); 
 		}
 	}
 	bool insert(int key, string value)
@@ -69,13 +42,13 @@ public:
 		node* check = find(key);
 		if (!check)
 		{
-			call_insert(key, value, root);
+			Insert(key, value, root);
 			return true;
 		}
 		else
 			return false;
 	}
-	node* call_insert(int key, string value,node*root)
+	node* Insert(int key, string value,node*root)
 	{
 		if (root == NULL) {
 			root = new node;
@@ -85,9 +58,9 @@ public:
 			root->value = value;
 		}
 		else if (key < root->key)
-			root->left = call_insert(key, value,root->left);
+			root->left = Insert(key, value,root->left);
 		else 
-			root->right = call_insert(key, value, root->right);
+			root->right = Insert(key, value, root->right);
 		return(root);
 	}
 	node* find(int key)
@@ -108,11 +81,47 @@ public:
 		}
 		return nullptr;
 	}
-	//bool erase(int key, node* root)
-	//{
-	//	node* eras = find(key, root);
+	bool erase(int key)
+	{
+		return Erase(root, key);
+	}
+	node* Erase(node* root, int key) {
+		if (root == NULL)
+			return root;
 
-	//}
+		if (key == root->key) {
+			node* tmp;
+			if (root->right == NULL)
+				tmp = root->left;
+			else {
+
+				node* ptr = root->right;
+				if (ptr->left == NULL) {
+					ptr->left = root->left;
+					tmp = ptr;
+				}
+				else {
+
+					node* pmin = ptr->left;
+					while (pmin->left != NULL) {
+						ptr = pmin;
+						pmin = ptr->left;
+					}
+					ptr->left = pmin->right;
+					pmin->left = root->left;
+					pmin->right = root->right;
+					tmp = pmin;
+				}
+			}
+			delete root;
+			return tmp;
+		}
+		else if (key < root->key)
+			root->left = Erase(root->left, key);
+		else
+			root->right = Erase(root->right, key);
+		return root;
+	}
 };
 int main()
 {
@@ -124,6 +133,7 @@ int main()
 	A.insert(6, "Styopakazel");
 	A.insert(3, "check");
 	A.insert(0, "check_1");
+	A.erase(0);
 	A.print();
 	return 0;
 }
