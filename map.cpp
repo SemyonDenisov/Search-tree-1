@@ -3,20 +3,17 @@
 	node* Map::Erase(node* root, int key) {
 		if (root == NULL)
 			return root;
-
 		if (key == root->key) {
 			node* tmp;
 			if (root->right == NULL)
 				tmp = root->left;
 			else {
-
 				node* ptr = root->right;
 				if (ptr->left == NULL) {
 					ptr->left = root->left;
 					tmp = ptr;
 				}
 				else {
-
 					node* pmin = ptr->left;
 					while (pmin->left != NULL) {
 						ptr = pmin;
@@ -37,7 +34,7 @@
 			root->right = Erase(root->right, key);
 		return root;
 	}
-	void Map::Print(node* root) const
+	void Map::Print(node* root) const 
 	{
 		if (root != NULL)
 		{
@@ -75,7 +72,7 @@
 			root->value = value;
 			return true;
 		}
-		string check = Find(key);
+		string check = find(key);
 		if (Insert(key, value, root))
 		{
 			return true;
@@ -83,7 +80,7 @@
 		else
 			return false;
 	}
-	const string Map::Find(int key) const
+	const string Map::find(int key) const
 	{
 		node* temp_root = root;
 		while (temp_root)
@@ -103,5 +100,6 @@
 	}
 	bool Map::erase(int key)
 	{
-		return Erase(root, key);
+		root = Erase(root, key);
+		return root;
 	}

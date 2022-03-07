@@ -24,7 +24,7 @@ public:
 	}
 	void print() const;
 	bool insert(int key, string value);
-	const string Find(int key) const;
+	const string find(int key) const;
 	bool erase(int key);
 
 };
