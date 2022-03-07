@@ -1,5 +1,11 @@
 #pragma once
 #include "map.h"
+	void Map::Delete(node*root)
+	{
+		if (root->left)   Delete(root->left);
+		if (root->right)  Delete(root->right);
+		delete root;
+	}
 	node* Map::Erase(node* root, int key) {
 		if (root == NULL)
 			return root;

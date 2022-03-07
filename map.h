@@ -17,10 +17,15 @@ private:
 	node* Erase(node* root, int key);
 	void Print(node* root) const;
 	node* Insert(int key, string value, node* root);
+	void Delete(node* root);
 public:
 	Map()
 	{
 		root = NULL;
+	}
+	~Map()
+	{
+		Delete(root);
 	}
 	void print() const;
 	bool insert(int key, string value);
